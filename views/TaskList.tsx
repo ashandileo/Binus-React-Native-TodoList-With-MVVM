@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, FlatList, StyleSheet, SafeAreaView } from "react-native";
-import { TextInput, Button, Card, Text } from "react-native-paper";
+import { TextInput, Button, Card, Text, Appbar } from "react-native-paper";
 import { useTaskController } from "../controllers/TaskController";
 
 const TaskList = () => {
@@ -8,44 +8,51 @@ const TaskList = () => {
   const [text, setText] = useState("");
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <FlatList
-          data={tasks}
-          keyExtractor={(item) => item.id.toString()}
-          style={{ flex: 1, padding: 12 }}
-          renderItem={({ item }) => (
-            <Card style={styles.card} onPress={() => toggleTask(item.id)}>
-              <Card.Content>
-                <Text style={[styles.text, item.completed && styles.completed]}>
-                  {item.title}
-                </Text>
-              </Card.Content>
-            </Card>
-          )}
-        />
-
-        <View style={{ padding: 12 }}>
-          <TextInput
-            label="Add Task"
-            value={text}
-            onChangeText={setText}
-            mode="outlined"
-            style={styles.input}
+    <>
+      <Appbar.Header>
+        <Appbar.Content title="TodoList Application" />
+      </Appbar.Header>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <FlatList
+            data={tasks}
+            keyExtractor={(item) => item.id.toString()}
+            style={{ flex: 1, padding: 12 }}
+            renderItem={({ item }) => (
+              <Card style={styles.card} onPress={() => toggleTask(item.id)}>
+                <Card.Content>
+                  <Text
+                    style={[styles.text, item.completed && styles.completed]}
+                  >
+                    {item.title}
+                  </Text>
+                </Card.Content>
+              </Card>
+            )}
           />
-          <Button
-            mode="contained"
-            onPress={() => {
-              addTask(text);
-              setText("");
-            }}
-            style={styles.button}
-          >
-            Add
-          </Button>
+
+          <View style={{ padding: 12 }}>
+            <TextInput
+              label="Add Task"
+              value={text}
+              onChangeText={setText}
+              mode="outlined"
+              style={styles.input}
+            />
+            <Button
+              mode="contained"
+              onPress={() => {
+                addTask(text);
+                setText("");
+              }}
+              style={styles.button}
+            >
+              Add
+            </Button>
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </>
   );
 };
 
