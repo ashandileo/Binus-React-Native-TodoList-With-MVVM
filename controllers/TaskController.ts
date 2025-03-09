@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Task } from "@/models/task/TaskModel";
+import { Task } from "@/models/TaskModel";
 
 export const useTaskController = () => {
   const [tasks, setTasks] = useState<Task[]>([
