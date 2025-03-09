@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, FlatList, TextInput, Button, Text } from "react-native";
+import { View, FlatList, StyleSheet, SafeAreaView } from "react-native";
+import { TextInput, Button, Card, Text } from "react-native-paper";
 import { useTaskController } from "../controllers/TaskController";
 
 const TaskList = () => {
@@ -7,36 +8,68 @@ const TaskList = () => {
   const [text, setText] = useState("");
 
   return (
-    <View style={{ padding: 20, marginTop: 50 }}>
-      <TextInput
-        value={text}
-        onChangeText={setText}
-        placeholder="Tambah tugas baru"
-      />
-      <Button
-        title="Tambah"
-        onPress={() => {
-          addTask(text);
-          setText("");
-        }}
-      />
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <FlatList
+          data={tasks}
+          keyExtractor={(item) => item.id.toString()}
+          style={{ flex: 1, padding: 12 }}
+          renderItem={({ item }) => (
+            <Card style={styles.card} onPress={() => toggleTask(item.id)}>
+              <Card.Content>
+                <Text style={[styles.text, item.completed && styles.completed]}>
+                  {item.title}
+                </Text>
+              </Card.Content>
+            </Card>
+          )}
+        />
 
-      <FlatList
-        data={tasks}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <Text
-            onPress={() => toggleTask(item.id)}
-            style={{
-              textDecorationLine: item.completed ? "line-through" : "none",
+        <View style={{ padding: 12 }}>
+          <TextInput
+            label="Add Task"
+            value={text}
+            onChangeText={setText}
+            mode="outlined"
+            style={styles.input}
+          />
+          <Button
+            mode="contained"
+            onPress={() => {
+              addTask(text);
+              setText("");
             }}
+            style={styles.button}
           >
-            {item.title}
-          </Text>
-        )}
-      />
-    </View>
+            Add
+          </Button>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
+  },
+  input: {
+    marginBottom: 10,
+  },
+  button: {
+    marginBottom: 20,
+  },
+  card: {
+    marginVertical: 5,
+  },
+  text: {
+    fontSize: 16,
+  },
+  completed: {
+    textDecorationLine: "line-through",
+    color: "gray",
+  },
+});
 
 export default TaskList;
