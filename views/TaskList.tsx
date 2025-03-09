@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View, FlatList, StyleSheet, SafeAreaView } from "react-native";
 import { TextInput, Button, Card, Text, Appbar } from "react-native-paper";
-import { useTaskController } from "../controllers/TaskController";
+import { useTaskViewModel } from "../view-models/useTaskViewModel";
 
 const TaskList = () => {
-  const { tasks, addTask, toggleTask } = useTaskController();
+  const { tasks, addTask, toggleTask } = useTaskViewModel();
   const [text, setText] = useState("");
 
   return (
